@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="laser_sensor" default="$(env HCR_LASER_SENSOR)"/>
+
+  <!-- HCR modle + robot_state_publisher + joint_state_publisher -->
+  <include file="$(find hcr_bringup)/launch/hcr_remote.launch"/>
+
+  <!-- RPLidar -->
+  <!-- <include file="$(find hcr_bringup)/launch/laser.launch"/> -->
+
+  <!-- hectorSLAM -->
+  <include file="$(find hcr_navigation)/includes/$(arg laser_sensor)_hectorslam.launch.xml" >
+    <!-- Frame names -->
+    <arg name="base_frame" value="link_lidar"/> 
+    <arg name="odom_frame" value="odom"/>
+
+    <!-- Map update parameters -->
+    <arg name="laser_min_dist" value="0.15"/>
+    <arg name="laser_max_dist" value="8.0"/>
+
+    <!-- Tf use -->
+    <arg name="pub_map_odom_transform" value="true"/>
+
+    <!-- Scan topic -->
+<!--     <arg name="scan_topic" value="scan_filtered"/> -->
+    <arg name="scan_topic" value="scan"/>
+  </include>
+
+</launch>

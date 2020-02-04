@@ -1,0 +1,9 @@
+<?xml version='1.0'?>
+<launch>
+
+  <!-- Laser scan filter configuration -->
+  <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laserscan_filter">
+      <rosparam file="$(find hcr_bringup)/launch/includes/laser/config/laserscan_filter.yaml" command="load"/>
+  </node>
+
+</launch>

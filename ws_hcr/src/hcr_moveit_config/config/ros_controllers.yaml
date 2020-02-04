@@ -1,0 +1,45 @@
+hcr:
+# MoveIt-specific simulation settings
+  moveit_sim_hw_interface:
+    joint_model_group: controllers_initial_group_
+    joint_model_group_pose: controllers_initial_pose_
+# Settings for ros_control control loop
+  generic_hw_control_loop:
+    loop_hz: 300
+    cycle_time_error_threshold: 0.01
+# Settings for ros_control hardware interface
+  hardware_interface:
+    joints:
+      - joint_arm1
+      - joint_arm2
+      - joint_arm3
+      - joint_arm4
+      - joint_arm5
+      - joint_arm6
+      - joint_suspensionCenter
+      - joint_wheelCenter
+      - joint_wheelLeft
+      - joint_wheelRight
+    sim_control_mode: 1  # 0: position, 1: velocity
+# Publish all joint states
+# Creates the /joint_states topic necessary in ROS
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+  controller_list:
+    - name: hcr_arm_controller
+      action_ns: follow_joint_trajectory
+      default: True
+      type: FollowJointTrajectory
+      joints:
+        - joint_arm1
+        - joint_arm2
+        - joint_arm3
+        - joint_arm4
+        - joint_arm5
+    - name: hcr_gripper_controller
+      action_ns: follow_joint_trajectory
+      default: True
+      type: FollowJointTrajectory
+      joints:
+        joint_arm6

@@ -1,0 +1,11 @@
+version: "2.4"
+services:
+  hcr:
+    image: hcr:kinetic-ros
+    network_mode: "host"
+    privileged: true
+    container_name: hcr
+    volumes:
+      - /dev/:/dev/
+      - ./:/hcr/
+    entrypoint: /hcr/entrypoint.sh

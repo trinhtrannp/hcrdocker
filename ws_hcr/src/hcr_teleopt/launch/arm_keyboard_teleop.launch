@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="arm_keyboard_teleop" pkg="hcr_teleopt" type="arm_teleop.py" output="screen"/>
+</launch>

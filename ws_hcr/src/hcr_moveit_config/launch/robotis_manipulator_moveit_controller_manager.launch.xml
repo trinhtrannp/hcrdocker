@@ -1,0 +1,12 @@
+<launch>
+  <!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find hcr_moveit_config)/config/controllers.yaml"/>
+
+  <!-- load controller_list -->
+  <param name="use_controller_manager" value="false"/>
+  <param name="trajectory_execution/execution_duration_monitoring" value="false"/>
+
+  <!-- Set the param that trajectory_execution_manager needs to find the controller plugin -->
+  <param name="moveit_controller_manager" 
+      value="moveit_simple_controller_manager/MoveItSimpleControllerManager"/>
+</launch>

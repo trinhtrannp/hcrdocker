@@ -1,0 +1,935 @@
+<?xml version='1.0'?>
+
+<robot name="hcr" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- some parameters -->
+  <xacro:property name="pi" value="3.141592654" />
+
+  <!-- Import all Gazebo-customization elements, including Gazebo colors -->
+  <xacro:include filename="$(find hcr_description)/urdf/yacra.gazebo" />
+
+  <xacro:include filename="$(find hcr_description)/urdf/hcr.gazebo" />
+  <xacro:include filename="$(find hcr_description)/urdf/materials.xacro"/>
+  <xacro:include filename="$(find hcr_description)/urdf/macros.xacro" />
+
+
+
+  <link name="base_footprint"/>
+  
+ <!-- ************************************************** -->
+
+  <link name="base_link"/>
+  <joint name="joint_base" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link" />
+    <origin xyz="0 0 0.0675" rpy="0 0 0"/>
+  </joint>
+
+<!-- ************************************************** -->
+<!-- LEVEL 0 											-->
+<!-- Bumpers, Battery, Suspension, Drives, Wheels,  	-->
+<!-- ************************************************** -->
+
+  <link name='link_level0'>
+    <visual name='level0'>
+      <origin xyz="0 0 -0.0015" rpy=" 0 0 0"/>
+      <geometry>
+        <box size="0.20 0.25 0.003"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+    <collision name='level0'>
+      <origin rpy=" 0 0 0" xyz="-0.0325 0 0" />
+      <geometry>
+        <box size="0.20 0.25 0.003"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy=" 0 0 0" xyz="-0.0325 0 0" />
+      <mass value="40"/>
+      <inertia
+        ixx="0.1" ixy="0.0" ixz="0.0"
+        iyy="0.1" iyz="0.0"
+        izz="0.1" />
+    </inertial>
+  </link>
+  <joint name="joint_level0" type="fixed">
+    <parent link="base_link"/>
+    <child link="link_level0" />
+    <origin xyz="-0.060 0 -0.030" rpy="0 0 0"/>
+  </joint>
+
+<!-- Bumpers	 										-->
+<!-- ************************************************** -->
+
+  <link name="link_bumperCenter">
+   <visual name="bumperCenter">
+      <origin rpy="0 0 0" xyz="0.025 0 0.0125" />
+      <geometry>
+        <box size="0.015 0.105 0.025"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision name="bumperCenter">
+      <origin rpy="0 0 0" xyz="0.025 0 0.0125" />
+      <geometry>
+        <box size="0.015 0.105 0.025"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.025 0 0.0125" />
+      <mass value="1"/>
+      <inertia
+        ixx="0.1" ixy="0.0" ixz="0.0"
+        iyy="0.1" iyz="0.0"
+        izz="0.1" />
+    </inertial>
+  </link>
+  <joint name="joint_bumperCenter" type="fixed" >
+    <parent link="link_level0"/>
+    <child link="link_bumperCenter"/>
+    <origin rpy="0 0 0" xyz="0.17 0 0" />
+  </joint>
+
+  <link name="link_bumperLeft">
+   <visual name="bumperLeft">
+      <origin rpy="0 0 0" xyz="0.025 0 0.0125" />
+      <geometry>
+        <box size="0.015 0.105 0.025"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision name="bumperLeft">
+      <origin rpy="0 0 0" xyz="0.025 0 0.0125" />
+      <geometry>
+        <box size="0.015 0.105 0.025"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.025 0 0.0125" />
+      <mass value="1"/>
+      <inertia
+        ixx="0.1" ixy="0.0" ixz="0.0"
+        iyy="0.1" iyz="0.0"
+        izz="0.1" />
+    </inertial>
+  </link>
+  <joint name="joint_bumperLeft" type="fixed" >
+    <parent link="link_level0"/>
+    <child link="link_bumperLeft"/>
+    <origin rpy="0 0 0.262" xyz="0.1575 0.1 0" />
+  </joint>
+
+  <link name="link_bumperRight">
+   <visual name="bumperRight">
+      <origin rpy="0 0 0" xyz="0.025 0 0.0125" />
+      <geometry>
+        <box size="0.015 0.105 0.025"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision name="bumperRight">
+      <origin rpy="0 0 0" xyz="0.025 0 0.0125" />
+      <geometry>
+        <box size="0.015 0.105 0.025"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.025 0 0.0125" />
+      <mass value="1"/>
+      <inertia
+        ixx="0.1" ixy="0.0" ixz="0.0"
+        iyy="0.1" iyz="0.0"
+        izz="0.1" />
+    </inertial>
+  </link>
+  <joint name="joint_bumperRight" type="fixed" >
+    <parent link="link_level0"/>
+    <child link="link_bumperRight"/>
+    <origin rpy="0 0 -0.262" xyz="0.1575 -0.1 0" />
+  </joint>
+
+<!-- Battery	 										-->
+<!-- ************************************************** -->
+  <link name="link_battery">
+   <visual name="battery">
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <box size="0.095 0.150 0.075"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision name="battery">
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <geometry>
+        <box size="0.095 0.150 0.075"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0.0475 0.075 0.0375" xyz="0 0 0" />
+      <mass value="1"/>
+      <inertia
+        ixx="0.05625" ixy="0.0" ixz="0.0"
+        iyy="0.0293" iyz="0.0"
+        izz="0.06305" />
+    </inertial>
+  </link>
+  <joint name="joint_battery" type="fixed" >
+    <parent link="link_level0"/>
+    <child link="link_battery"/>
+    <origin rpy="0 0 0" xyz="-0.0125 0 0.0375" />
+  </joint>
+
+<!-- Suspension 										-->
+<!-- ************************************************** -->
+
+  <link name="link_wheelSuspensionPlate">
+   <visual name="wheelSuspensionCenter">
+      <origin rpy="0 0 0" xyz="0 0 0.001" />
+      <geometry>
+        <box size="0.05 0.09 0.002"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+    <collision name="wheelSuspensionPlate">
+      <origin rpy="0 0 0" xyz="0 0 0.001" />
+      <geometry>
+        <box size="0.05 0.09 0.002"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0.001" />
+      <mass value="1"/>
+      <inertia
+        ixx="0.1" ixy="0.0" ixz="0.0"
+        iyy="0.1" iyz="0.0"
+        izz="0.1" />
+    </inertial>
+  </link>
+  <joint name="joint_wheelSuspensionPlate" type="fixed" >
+    <parent link="link_level0"/>
+    <child link="link_wheelSuspensionPlate"/>
+    <origin rpy="0 0 0" xyz="-0.105 0 0.02" />
+  </joint>
+  
+  <link name="link_suspensionCenter">
+   <visual name="suspensionCenter">
+      <origin rpy="0 0 0" xyz="0 0 -0.0025" />
+      <geometry>
+        <cylinder radius="0.015" length="0.005"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision name="suspensionCenter">
+      <origin rpy="0 0 0" xyz="0 0 -0.0025" />
+      <geometry>
+        <cylinder radius="0.015" length="0.005"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 -0.0025" />
+      <mass value="1"/>
+      <inertia
+        ixx="0.1" ixy="0.0" ixz="0.0"
+        iyy="0.1" iyz="0.0"
+        izz="0.1" />
+    </inertial>
+ </link>
+  <!-- <joint name="joint_suspensionCenter" type="revolute" > -->
+  <joint name="joint_suspensionCenter" type="fixed" >
+    <parent link="link_level0"/>
+    <child link="link_suspensionCenter"/>
+    <origin rpy="0 0 0" xyz="-0.105 0 0.02" />
+    <axis rpy="0 0 0" xyz="0 0 1" />
+    <!-- <limit velocity="1000" effort="1000" lower="${-pi/2}" upper="${pi/2}" /> -->
+  </joint>
+
+<!-- Drives		 										-->
+<!-- ************************************************** -->
+
+  <link name="link_driveLeft">
+   <visual name="driveLeft">
+      <origin rpy="1.5707 0 0" xyz="0 -0.05 0" />
+      <geometry>
+        <cylinder radius="0.0125" length="0.1"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision name="driveLeft">
+      <origin rpy="1.5707 0 0" xyz="0 -0.05 0" />
+      <geometry>
+        <cylinder radius="0.0125" length="0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="1.5707 0 0" xyz="0 -0.05 0" />
+      <mass value="1"/>
+      <inertia
+        ixx="0.1" ixy="0.0" ixz="0.0"
+        iyy="0.1" iyz="0.0"
+        izz="0.1" />
+    </inertial>
+  </link>
+  <joint name="joint_driveLeft" type="fixed" >
+    <parent link="link_level0"/>
+    <child link="link_driveLeft"/>
+    <origin rpy="0 0 0" xyz="0.06 0.125 0.03" />
+  </joint>
+
+  <link name="link_driveRight">
+   <visual name="driveRight">
+      <origin rpy="1.5707 0 0" xyz="0 0.05 0" />
+      <geometry>
+        <cylinder radius="0.0125" length="0.1"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision name="driveRight">
+      <origin rpy="1.5707 0 0" xyz="0 0.05 0" />
+      <geometry>
+        <cylinder radius="0.0125" length="0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="1.5707 0 0" xyz="0 0.05 0" />
+      <mass value="1"/>
+      <inertia
+        ixx="0.1" ixy="0.0" ixz="0.0"
+        iyy="0.1" iyz="0.0"
+        izz="0.1" />
+    </inertial>
+  </link>
+  <joint name="joint_driveRight" type="fixed" >
+    <parent link="link_level0"/>
+    <child link="link_driveRight"/>
+    <origin rpy="0 0 0" xyz="0.06 -0.125 0.03" />
+  </joint>
+
+<!-- Wheels		 										-->
+<!-- ************************************************** -->
+
+  <link name="link_wheelLeft">
+   <visual name="wheelLeft">
+      <origin rpy="1.5707 0 0" xyz="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0675" length="0.02"/>
+      </geometry>
+      <material name="Black"/>
+    </visual>
+    <collision name="wheelLeft">
+      <origin rpy="1.5707 0 0" xyz="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0675" length="0.02"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="1.5707 0 0" xyz="0 0 0" />
+      <mass value="1"/>
+      <inertia
+        ixx="0.1" ixy="0.0" ixz="0.0"
+        iyy="0.1" iyz="0.0"
+        izz="0.1" />
+    </inertial>
+  </link>
+  <joint name="joint_wheelLeft" type="continuous" >
+    <parent link="link_level0"/>
+    <child link="link_wheelLeft"/>
+    <origin rpy="0 0 0" xyz="0.06 0.14 0.03" />
+    <axis rpy="0 0 0" xyz="0 1 0" />
+    <limit effort="10000" velocity="1000"/>
+    <dynamics damping="0.7"/>
+  </joint>
+  <transmission name="transmission_wheelLeft">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_wheelLeft">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="actuator_wheelLeft">
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+
+  <link name="link_wheelRight">
+   <visual name="wheelRight">
+      <origin rpy="1.5707 0 0" xyz="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0675" length="0.02"/>
+      </geometry>
+      <material name="Black"/>
+    </visual>
+    <collision name="wheelRight">
+      <origin rpy="1.5707 0 0" xyz="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0675" length="0.02"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="1.5707 0 0" xyz="0 0 0" />
+      <mass value="1"/>
+      <inertia
+        ixx="0.1" ixy="0.0" ixz="0.0"
+        iyy="0.1" iyz="0.0"
+        izz="0.1" />
+    </inertial>
+  </link>
+  <joint name="joint_wheelRight" type="continuous" >
+    <parent link="link_level0"/>
+    <child link="link_wheelRight"/>
+    <origin rpy="0 0 0" xyz="0.06 -0.14 0.03" />
+    <axis rpy="0 0 0" xyz="0 1 0" />
+    <limit effort="10000" velocity="1000"/>
+    <dynamics damping="0.7"/>
+  </joint>
+  <transmission name="transmission_wheelRight">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_wheelRight">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="actuator_wheelRight">
+      <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+
+  <link name="link_wheelCenter">
+   <visual name="wheelCenter">
+      <origin rpy="1.5707 0 0" xyz="0 0 0" />
+      <geometry>
+        <cylinder radius="0.02" length="0.02"/>
+      </geometry>
+      <material name="Black"/>
+    </visual>
+    <collision name="wheelCenter">
+        <origin rpy="1.5707 0 0" xyz="0 0 0" />
+      <geometry>
+        <cylinder radius="0.02" length="0.02"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="1.5707 0 0" xyz="0 0 0" />
+      <mass value="1"/>
+      <inertia
+        ixx="0.1" ixy="0.0" ixz="0.0"
+        iyy="0.1" iyz="0.0"
+        izz="0.1" />
+    </inertial>
+  </link>
+  <!-- <joint name="joint_wheelCenter" type="continuous" > -->
+  <joint name="joint_wheelCenter" type="fixed" >
+    <parent link="link_suspensionCenter"/>
+    <child link="link_wheelCenter"/>
+    <origin rpy="0 0 0" xyz="-0.02 0 -0.0375" />
+    <axis rpy="0 0 0" xyz="0 1 0" />
+    <!-- <limit effort="10000" velocity="1000"/> -->
+    <!-- <dynamics damping="0.7"/> -->
+  </joint>
+
+<!-- ************************************************** -->
+<!-- LEVEL 1 											-->
+<!-- LIDAR, (Hokuyo)									--> 
+<!-- ************************************************** -->
+  <link name='link_level1'>
+    <visual name='level1'>
+      <origin rpy="0 0 0" xyz="0 0 -0.0015" />
+      <geometry>
+        <cylinder radius="0.1575" length="0.003"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+    <collision name='level1'>
+      <origin rpy="0 0 0" xyz="0 0 -0.0015" />
+      <geometry>
+        <cylinder radius="0.1575" length="0.003"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 -0.0015" />
+      <mass value="1"/>
+      <inertia
+        ixx="0.1" ixy="0.0" ixz="0.0"
+        iyy="0.1" iyz="0.0"
+        izz="0.1" />
+    </inertial>
+  </link>
+  <joint name="joint_level1" type="fixed" >
+    <parent link="link_level0"/>
+    <child link="link_level1"/>
+    <origin rpy="0 0 0" xyz="0 0 0.123" />
+  </joint>
+
+<!-- LIDAR Laser 										-->
+<!-- ************************************************** -->
+<link name="link_lidar"/>
+  <joint name="joint_lidar" type="fixed">
+    <parent link="link_level1"/>
+    <child link="link_lidar" />
+    <origin xyz="0 0 0.074" rpy="0 0 1.570796327"/>
+  </joint>
+
+<!-- Hokuyo Laser 										-->
+<!-- ************************************************** -->
+  <link name="link_laserHokuyo">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://hcr_description/meshes/hokuyo.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <mass value="1e-5" />
+      <inertia 
+        ixx="1e-6" ixy="0" ixz="0" 
+        iyy="1e-6" iyz="0" 
+        izz="1e-6" />
+    </inertial>
+  </link>
+  <joint name="joint_laserHokuyo" type="fixed">
+    <parent link="link_level1"/>
+    <child link="link_laserHokuyo"/>
+    <origin rpy="0 0 0" xyz="0 0 0.074" />
+    <axis xyz="0 1 0" />
+  </joint>
+
+
+
+
+
+<!-- ************************************************** -->
+<!-- LEVEL 2 											-->
+<!-- Top construction, camera kinect, robotarm yacra--> 
+<!-- ************************************************** -->
+  <link name='link_level2'>
+    <visual name='level2'>
+      <origin rpy="0 0 0" xyz="0 0 -0.0015" />
+      <geometry>
+        <cylinder radius="0.1575" length="0.003"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+    <collision name='level2'>
+      <origin rpy="0 0 0" xyz="0 0 -0.0015" />
+      <geometry>
+        <cylinder radius="0.1575" length="0.003"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 -0.0015" />
+      <mass value="1"/>
+      <inertia
+        ixx="0.1" ixy="0.0" ixz="0.0"
+        iyy="0.1" iyz="0.0"
+        izz="0.1" />
+    </inertial>
+  </link>
+  <joint name="joint_level2" type="fixed" >
+    <parent link="link_level1"/>
+    <child link="link_level2"/>
+    <origin rpy="0 0 0" xyz="0 0 0.478" />
+  </joint>
+
+  <link name="link_topFrame"/>
+  <joint name="joint_topFrame" type="fixed">
+    <parent link="link_level2"/>
+    <child link="link_topFrame" />
+    <origin xyz="-0.100 0 -0.003" rpy="0 0 0"/>
+  </joint>
+
+  <link name="camera_link">
+  <!-- <link name="link_camera"> -->
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://hcr_description/meshes/kinect.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0" />
+      <mass value="1e-5" />
+      <inertia 
+        ixx="1e-6" ixy="0" ixz="0" 
+        iyy="1e-6" iyz="0" 
+        izz="1e-6" />
+    </inertial>
+  </link>
+  <joint name="joint_camera" type="fixed">
+    <parent link="link_topFrame"/>
+    <!-- <child link="link_camera" /> -->
+    <child link="camera_link" />
+     <!-- ry = 45 -->
+    <!-- <origin xyz="-0.015 0 0.686" rpy="0 ${pi/4} 0"/> -->
+    <!-- ry = ca. 47 grad -->
+    <origin xyz="-0.015 0 0.686" rpy="0 ${0.8203} 0"/>
+  </joint>
+
+  <!-- <link name="camera_link_optical"> -->
+  <!-- </link> -->
+  <!-- <joint name="camera_optical_joint" type="fixed"> -->
+  <!--   <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/> -->
+  <!--   <parent link="camera_link"/> -->
+  <!--   <child link="camera_link_optical"/> -->
+  <!-- </joint> -->
+
+
+
+
+
+
+<!-- ************************ -->
+<!--      ARM SYSTEM          -->
+<!-- ************************ -->
+  <!-- <link name="link_armFixed"/> -->
+  <joint name="joint_armFixed" type="fixed">
+    <parent link="link_topFrame"/>
+    <child link="link_armBase" />
+    <!-- <origin xyz="0.1625 0.01 0.185" rpy="1.570796 3.14159 0"/> -->
+    <origin xyz="0.1625 -0.020 0.185" rpy="1.570796 3.14159 0"/>
+  </joint>
+
+  <link name="link_armBase"/>
+  <joint name="joint_armBase" type="fixed">
+    <parent link="link_armBase"/>
+    <child link="link_arm1"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- link 1 -->
+  <link name="link_arm1">
+    <collision>
+      <origin xyz="-0.0 -0.0666 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://hcr_description/meshes/1.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="-0.0 -0.0666 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://hcr_description/meshes/1.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="-0.80 0.00000 -0.8223" rpy="0 0 0"/>
+      <!--<origin xyz="0.00023 0.00000 -0.06377" rpy="0 0 0"/>-->
+      <!-- <mass value="0.85644"/> -->
+      <mass value="0.001"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+      <!--<inertia ixx="0.00121064" ixy="0.0" ixz="0.00001100" iyy="0.00120886" iyz="0.0" izz="0.00038103" />-->
+    </inertial>
+  </link>
+
+  <!-- Joint 1 -->
+  <joint name="joint_arm1" type="revolute">
+    <parent link="link_arm1"/>
+    <child link="link_arm2"/>
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit velocity="6.5" effort="1000" lower="${-pi}" upper="${pi}" />
+    <dynamics damping="0.7"/>
+  </joint>
+
+  <transmission name="tranmission_arm1">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_arm1">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="actuartor_arm1">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <!-- link 2 -->
+  <link name="link_arm2">
+    <collision>
+      <origin xyz="-0.015 -0.063 -0.008" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://hcr_description/meshes/2.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="-0.015 -0.063 -0.008" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://hcr_description/meshes/2.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0.00000 0.00000 0.00283" rpy="0 0 0"/>
+      <!--<origin xyz="0.00000 -0.06820 -0.00117" rpy="0 0 0"/>-->
+      <mass value="0.94658"/>
+      <!-- <mass value="0.001"/> -->
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+      <!--<inertia ixx="0.00152547" ixy="0.0" ixz="0.0" iyy="0.00045954" iyz="-0.00001086" izz="0.00151740" />-->
+    </inertial>
+  </link>
+
+  <!-- Joint 2 -->
+  <joint name="joint_arm2" type="revolute">
+    <parent link="link_arm2"/>
+    <child link="link_arm3"/>
+    <origin xyz="-0.01475 -0.01475 0.090" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit velocity="6.5" effort="1000" lower="-2.74276" upper="1.76715" />
+    <dynamics damping="0.7"/>
+  </joint>
+
+  <transmission name="transmission_arm2">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_arm2">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="actuartor_arm2">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <!-- link 3 -->
+  <link name="link_arm3">
+    <collision>
+      <origin xyz="-0.00006 -0.048 -0.0980" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://hcr_description/meshes/3.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="-0.00006 -0.048 -0.0980" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://hcr_description/meshes/3.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0.01768 -0.06881 0.00524" rpy="0 0 0"/>
+      <!--<origin xyz="-0.01232 -0.05731 -0.05876" rpy="0 0 0"/>-->
+      <mass value="1.30260"/>
+      <!-- <mass value="0.001"/> -->
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+      <!--<inertia ixx="0.01111021" ixy="0.00001331" ixz="-0.00134208" iyy="0.01046642" iyz="0.00016235" izz="0.00202081" />-->
+    </inertial>
+  </link>
+
+  <!-- Joint 3 -->
+  <joint name="joint_arm3" type="revolute">
+    <parent link="link_arm3"/>
+    <child link="link_arm4"/>
+    <origin xyz="0.00000 0.00000 0.1074" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit velocity="6.5" effort="1000" lower="-2.83480" upper="2.99433" />
+    <dynamics damping="0.7"/>
+  </joint>
+
+  <transmission name="transmission_arm3">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_arm3">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="actuartor_arm3">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <!-- link 4 -->
+  <link name="link_arm4">
+    <collision>
+      <origin xyz="0 -0.048 -0.20569" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://hcr_description/meshes/4-neu.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 -0.048 -0.20569" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://hcr_description/meshes/4-neu.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0.12475 -0.05716 0.02979" rpy="0 0 0"/>
+      <!--<origin xyz="-0.07025 0.00034 -0.00021" rpy="0 0 0"/>-->
+      <mass value="1.15977"/>
+      <!-- <mass value="0.001"/> -->
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+      <!--<inertia ixx="0.00096726" ixy="0.00004383" ixz="-0.00002771" iyy="0.00318801" iyz="0.00000627" izz="0.00341484" />-->
+    </inertial>
+  </link>
+
+  <!-- Joint 4 -->
+  <joint name="joint_arm4" type="revolute">
+    <parent link="link_arm4"/>
+    <child link="link_arm5"/>
+   <origin xyz="0.00 0.00 0.08300" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit velocity="6.5" effort="1000" lower="-2.03713" upper="2.13530" />
+    <dynamics damping="0.7"/>
+  </joint>
+
+  <transmission name="transmission_arm4">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_arm4">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="actuartor_arm4">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <!-- link 5 -->
+  <link name="link_arm5">
+    <collision>
+      <origin xyz="0 -0.048 -0.28890" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://hcr_description/meshes/5.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 -0.048 -0.28890" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://hcr_description/meshes/5.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0.05642 -0.00217 0.00002" rpy="0 0 0"/>
+      <!--<origin xyz="-0.00658 -0.04717 0.00002" rpy="0 0 0"/>-->
+      <mass value="0.44688"/>
+      <!-- <mass value="0.001"/> -->
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+      <!--<inertia ixx="0.00030285" ixy="0.00000761" ixz="0.00000031" iyy="0.00022339" iyz="-0.00000001" izz="0.00039766" />-->
+    </inertial>
+  </link>
+
+  <!-- Joint 5 -->
+  <joint name="joint_arm5" type="revolute">
+    <parent link="link_arm5"/>
+    <child link="link_arm6"/>
+    <origin xyz="0.000 0.01785 0.06775" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit velocity="6.5" effort="1000" lower="${-pi}" upper="${pi}" />
+    <dynamics damping="0.7"/>
+  </joint>
+
+  <transmission name="transmission_arm5">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_arm5">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="actuartor_arm5">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <!-- link 6 -->
+  <link name="link_arm6">
+    <collision>
+      <origin xyz="0 -0.063006 -0.35695008" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://hcr_description/meshes/6.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 -0.063006 -0.35695008" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://hcr_description/meshes/6.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0.06831 -0.04457 0.00000" rpy="0 0 0"/>
+      <!--<origin xyz="-0.05469 0.00043 0.00000" rpy="0 0 0"/>-->
+      <mass value="0.43273"/>
+      <!-- <mass value="0.001"/> -->
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+      <!--<inertia ixx="0.00021512" ixy="0.00001009" ixz="0.00000000" iyy="0.00042827" iyz="0.00000000" izz="0.00051436" />-->
+    </inertial>
+  </link>
+
+  <!-- Joint 6 -->
+  <joint name="joint_arm6" type="revolute">
+    <parent link="link_arm6"/>
+    <child link="link_armEndEff"/>
+    <origin xyz="0.00 -0.0207 0.02400" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit velocity="6.5" effort="1000" lower="${-pi*0.15}" upper="${pi*0.4}" />
+    <!-- <limit velocity="6.5" effort="1000" lower="0.23317" upper="2.74889" /> -->
+    <dynamics damping="0.7"/>
+  </joint>
+
+  <transmission name="transmission_arm6">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_arm6">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="actuartor_arm6">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <!-- end link -->
+  <link name="link_armEndEff">
+    <collision>
+      <origin xyz="0 -0.0418 -0.380" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://hcr_description/meshes/7.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 -0.0418 -0.380" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://hcr_description/meshes/7.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0.00337 0.00000 0.00000" rpy="0 0 0"/>
+      <mass value="0.01919"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+      <!--<inertia ixx="0.00000938" ixy="0.0" ixz="0.0" iyy="0.00000338" iyz="0.0" izz="0.00000635" />-->
+    </inertial>
+  </link>
+
+
+  <!-- TCP -->
+  <joint name="joint_TCP" type="fixed">
+    <parent link="link_arm6"/>
+    <child link="link_TCP"/>
+    <origin xyz="0.0 -0.04 0.06" rpy="0 0 0"/>
+  </joint>
+  <link name="link_TCP">
+  </link>
+
+</robot>

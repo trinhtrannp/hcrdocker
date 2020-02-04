@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<launch>
+  <!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find hcr_controller)/config/joint_trajectory_controller.yaml" command="load"/>
+
+  <!-- load the controllers -->
+<node name="trajectory_controller_spawner" pkg="controller_manager" type="controller_manager" 
+  respawn="false" output="screen" args="spawn hcr_arm_controller hcr_gripper_controller" />
+</launch>
+
+

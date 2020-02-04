@@ -1,0 +1,44 @@
+joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50 
+# all settings related to HCR mobile platform
+diff_drive_controller:
+  type        : "diff_drive_controller/DiffDriveController"
+  left_wheel  : 'joint_wheelLeft'
+  right_wheel : 'joint_wheelRight'
+  publish_rate: 50
+  publish_cmd: false
+
+  pose_covariance_diagonal : [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
+  twist_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
+
+  # Wheel separation and radius multipliers
+  wheel_separation            : 0.28
+  wheel_radius                : 0.0675
+  wheel_separation_multiplier : 1.0
+  wheel_radius_multiplier     : 1.0
+
+  # Velocity commands timeout [s], default 0.5
+  cmd_vel_timeout: 0.25
+
+  # Base frame_id
+  base_frame_id: base_footprint
+
+  # open_loop == false; -> feedback from HW Interface
+  open_loop: false
+
+  # Velocity and acceleration limits
+  # Whenever a min_* is unspecified, default to -max_*
+  linear/x/has_velocity_limits      : true
+  linear/x/max_velocity             : 0.06 #m/s
+  linear/x/has_acceleration_limits  : true
+  linear/x/max_acceleration         : 0.1 #m/s^2
+  linear/x/has_jerk_limits          : true
+  linear/x/max_jerk                 : 5.0 #m/s^3
+
+  angular/z/has_velocity_limits     : true
+  angular/z/max_velocity            : 0.15 #rad/s
+  angular/z/has_acceleration_limits : true
+  angular/z/max_acceleration        : 0.35 #rad/s^2
+  angular/z/has_jerk_limits         : true
+  angular/z/max_jerk                : 5.0 #rad/s^3

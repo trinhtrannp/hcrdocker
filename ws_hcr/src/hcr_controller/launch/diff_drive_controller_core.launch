@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+  <!-- Load controller setting to parameter server -->
+  <rosparam file="$(find hcr_controller)/config/hardware_interface.yaml" command="load"/>
+  <rosparam file="$(find hcr_controller)/config/diff_drive_controller.yaml" command="load"/>
+  <!-- <rosparam file="$(find hcr_controller)/config/hardware_interface_joint_limits.yaml" command="load"/> -->
+
+  <!-- load the controllers -->
+  <node name="hcr_hardware_interface" pkg="hcr_controller" type="hcr_hardware_interface_node" output="screen"/>
+
+  <node name="hcr_diff_drive_controller" pkg="controller_manager" type="spawner" 
+      respawn="false" output="screen" args="joint_state_controller diff_drive_controller" />
+</launch>
+
+

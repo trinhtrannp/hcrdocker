@@ -1,0 +1,40 @@
+hcr_arm_controller:
+    type: effort_controllers/JointTrajectoryController
+    joints:
+      - joint_arm1
+      - joint_arm2
+      - joint_arm3
+      - joint_arm4
+      - joint_arm5
+    gains: 
+     joint_arm1: {p: 100.0, i: 10.0, d: 5.0, i_clamp: 0.0}
+     joint_arm2: {p: 100.0, i: 10.0, d: 4.0, i_clamp: 0.0}
+     joint_arm3: {p: 100.0, i: 10.0, d: 3.0, i_clamp: 0.0}
+     joint_arm4: {p: 100.0, i: 10.0, d: 1.5, i_clamp: 0.0}
+     joint_arm5: {p: 100.0, i: 10.0, d: 1.0, i_clamp: 0.0}
+    constraints:
+      goal_time: 0.6
+      stopped_velocity_tolerance: 0.05
+      joint_arm1: {trajectory: 0.1, goal: 0.1}
+      joint_arm2: {trajectory: 0.1, goal: 0.1}
+      joint_arm3: {trajectory: 0.1, goal: 0.1}
+      joint_arm4: {trajectory: 0.1, goal: 0.1}
+      joint_arm5: {trajectory: 0.1, goal: 0.1}
+    stop_trajectory_duration: 0.5
+    state_publish_rate:  25
+    action_monitor_rate: 1
+
+hcr_gripper_controller:
+    type: effort_controllers/JointTrajectoryController
+    joints:
+      - joint_arm6
+    gains: 
+     joint_arm6: {p: 100.0, i: 10.0, d: 0.5, i_clamp: 0.0}
+    constraints:
+      goal_time: 0.6
+      stopped_velocity_tolerance: 0.05
+      joint_arm6: {trajectory: 0.1, goal: 0.1}
+      end_link: {trajectory: 0.1, goal: 0.1}
+    stop_trajectory_duration: 0.5
+    state_publish_rate:  25
+    action_monitor_rate: 1

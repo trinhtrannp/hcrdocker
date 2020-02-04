@@ -1,0 +1,11 @@
+<?xml version='1.0'?>
+<launch>
+
+
+  <!-- launch dxl -->
+  <include file="$(find hcr_controller)/launch/dxl_arm_controller.launch" />
+
+
+  <!-- <include file="$(find hcr_bringup)/launch/kinect.launch"/> -->
+
+</launch>

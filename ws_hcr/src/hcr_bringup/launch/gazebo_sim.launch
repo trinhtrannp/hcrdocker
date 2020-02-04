@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+<!-- hcr model, robot_state_pup, joint_state_pup -->
+  <include file="$(find hcr_bringup)/launch/hcr_remote.launch" />
+
+
+<!-- Gazebo controller -->
+  <include file="$(find hcr_controller)/launch/diff_drive_controller_gazebo.launch" />
+
+<!-- Gazebo -->
+  <include file="$(find hcr_gazebo)/launch/hcr_gazebo.launch" />
+
+</launch>
+

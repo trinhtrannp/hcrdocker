@@ -1,0 +1,15 @@
+controller_list:
+  - name: "hcr_arm_controller"
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    joints:
+      - joint_arm1
+      - joint_arm2
+      - joint_arm3
+      - joint_arm4
+      - joint_arm5
+  - name: "hcr_gripper_controller"
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    joints:
+      - joint_arm6

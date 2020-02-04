@@ -1,0 +1,24 @@
+<?xml version='1.0'?>
+<launch>
+  <arg name="config" default="true" />
+
+  <!-- hcr model, robot_state_pup -->
+  <include file="$(find hcr_bringup)/launch/includes/description.launch.xml" />
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
+    <param name="publish_frequency" type="double" value="50.0" />
+  </node>
+
+
+
+  <!-- launch navigation -->
+  <include file="$(find hcr_navigation)/launch/hcr_laser_nav.launch" />
+
+  <!-- launch moveit -->
+  <!-- <include file="$(find hcr_moveit_config)/launch/move_group.launch"> -->
+  <!-- </include> -->
+
+  <!-- launch rviz -->
+  <include file="$(find hcr_bringup)/launch/view_complete.launch"/>
+
+</launch> 

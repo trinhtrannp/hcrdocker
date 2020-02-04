@@ -1,0 +1,34 @@
+<?xml version='1.0'?>
+<launch>
+
+  <arg name="debug" default="false" />
+ 
+  <!-- hcr model, robot_state_pup, joint_state_pup -->
+  <include file="$(find hcr_bringup)/launch/hcr_remote.launch" />
+
+  <!-- Load Controller for Gazebo -->
+  <include file="$(find hcr_controller)/launch/joint_state_controller.launch" />
+  <include file="$(find hcr_controller)/launch/joint_trajectory_controller.launch" />
+  <include file="$(find hcr_controller)/launch/diff_drive_controller_gazebo.launch" />
+
+
+  <!-- launch Gazebo -->
+  <include file="$(find hcr_gazebo)/launch/hcr_gazebo.launch" />
+
+
+
+  <!-- launch navigation -->
+  <!-- <include file="$(find hcr_navigation)/launch/hcr_gazebo_laser_exp.launch" /> -->
+  <include file="$(find hcr_navigation)/launch/hcr_gazebo_laser_nav.launch" />
+
+  <!-- launch moveit -->
+  <include file="$(find hcr_moveit_config)/launch/move_group.launch">
+    <arg name="debug" default="$(arg debug)" />
+  </include>
+
+
+  <!-- launch rviz -->
+  <include file="$(find hcr_bringup)/launch/view_complete.launch"/>
+
+
+</launch>

@@ -1,0 +1,11 @@
+<?xml version='1.0'?>
+<launch>
+
+  <!-- RPLIDAR -->
+  <arg name="laser_sensor"   default="$(env HCR_LASER_SENSOR)"/> <!-- .bashrc -> export HCR_LASER_SENSOR=rplidar -->
+  <include file="$(find hcr_bringup)/launch/includes/laser/$(arg laser_sensor).launch.xml" />
+
+  <!-- laser filter -->
+  <!-- <include file="$(find hcr_bringup)/launch/includes/laser/laserscan_filter.launch.xml" /> -->
+
+</launch>

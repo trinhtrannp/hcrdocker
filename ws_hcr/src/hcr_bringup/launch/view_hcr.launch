@@ -1,0 +1,18 @@
+<?xml version='1.0'?>
+<launch>
+  <!-- modle to parameter server -->
+  <include file="$(find hcr_bringup)/launch/includes/description.launch.xml" />
+
+  <!-- manipulate joints -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <param name="use_gui" value="true"/>
+  </node>
+
+  <!-- publish robot states   -->
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
+    <param name="publish_frequency" type="double" value="50.0" />
+  </node>
+
+  <!-- Load RVIZ config   -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find hcr_bringup)/rviz/model.rviz"/>
+</launch>

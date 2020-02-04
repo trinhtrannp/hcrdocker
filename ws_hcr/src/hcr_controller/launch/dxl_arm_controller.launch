@@ -1,0 +1,59 @@
+<?xml version='1.0'?>
+<launch>
+    <!-- Start controller manager -->
+    <node name="dynamixel_manager" pkg="dynamixel_controllers" type="controller_manager.py" 
+      required="true" output="screen">
+        <rosparam>
+            namespace: dxl_manager
+            serial_ports:
+                dxl_port:
+                    port_name: "/dev/ttyUSB1"
+                    baud_rate: 1000000
+                    min_motor_id: 1
+                    max_motor_id: 6
+                    update_rate: 20
+        </rosparam>
+    </node>
+
+    <!-- Start position joint controller -->
+    <rosparam file="$(find hcr_controller)/config/dxl_joints_controller.yaml" command="load"/>
+    <node name="controller_spawner" pkg="dynamixel_controllers" type="controller_spawner.py"
+          args="--manager=dxl_manager
+                --port dxl_port
+                joint_arm1_controller                       
+                joint_arm2_controller                       
+                joint_arm3_controller                       
+                joint_arm4_controller
+                joint_arm5_controller
+                joint_arm6_controller
+                "
+          output="screen"/>
+          
+  <!-- Start yacra arm controller controller -->
+  <rosparam file="$(find hcr_controller)/config/dxl_joints_trajectory_controller.yaml" command="load"/>
+    <node name="yacra_arm_controller_spawner" pkg="dynamixel_controllers" type="controller_spawner.py"
+          args="--manager=dxl_manager
+                --type=meta
+                hcr_arm_controller
+                joint_arm1_controller                       
+                joint_arm2_controller                       
+                joint_arm3_controller
+                joint_arm4_controller
+                joint_arm5_controller
+               "
+          output="screen"/>
+
+  <!-- Start yacra gripper controller -->
+  <rosparam file="$(find hcr_controller)/config/dxl_joints_trajectory_controller.yaml" command="load"/>
+    <node name="yacra_gripper_controller_spawner" pkg="dynamixel_controllers" type="controller_spawner.py"
+          args="--manager=dxl_manager
+                --type=meta
+                hcr_gripper_controller
+                joint_arm6_controller
+               "
+          output="screen"/>
+
+  <!-- Start dynamixel joint state publisher + robot state publisher -->
+  <include file="$(find hcr_controller)/launch/dxl_robot_state.launch" />
+
+</launch>

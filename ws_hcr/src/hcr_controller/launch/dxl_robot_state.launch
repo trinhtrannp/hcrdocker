@@ -1,0 +1,17 @@
+<?xml version='1.0'?>
+<launch>
+
+  <!-- Load the URDF into the ROS Parameter Server -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find hcr_description)/urdf/yacra.xacro'" />
+
+  <!-- Load joint_state_publisher node -->
+  <node name="dxl_joint_state_publisher" pkg="hcr_controller" type="dxl_joint_state_publisher.py" /> 
+
+  <node pkg="tf" type="static_transform_publisher" name="map_base_tf" args="0 0 0 0 0 0 /map /world 50" />
+
+  <!-- convert joint states to TF transforms for rviz, etc -->
+  <!-- node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+	 respawn="false" output="screen">
+  </node -->
+
+</launch>

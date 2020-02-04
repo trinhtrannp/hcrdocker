@@ -1,0 +1,8 @@
+hardware_interface:
+  # loop_hz: 10 #~0.1s default 10hz
+  loop_hz: 20 #~0.1s default 10hz
+  joints:
+    - joint_wheelLeft
+    - joint_wheelRight
+
+

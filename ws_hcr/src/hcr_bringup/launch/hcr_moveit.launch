@@ -1,0 +1,15 @@
+<?xml version='1.0'?>
+<launch>
+
+  <!-- robot model, robot_state_pup -->
+  <include file="$(find hcr_bringup)/launch/includes/description.launch.xml" />
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
+    <param name="publish_frequency" type="double" value="50.0" />
+  </node>
+
+  <!-- launch moveit -->
+  <include file="$(find hcr_moveit_config)/launch/move_group.launch">
+  </include>
+
+</launch>

@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<launch>
+
+
+  <!-- launch State Machine -->
+  <node pkg="hcr_state" name="hcr_state_machine" type="state.py" output="screen"/>
+
+</launch>

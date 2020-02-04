@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="laser_sensor" default="$(env HCR_LASER_SENSOR)"/>
+
+  <!-- 
+    rplidar:
+    Hokuyo sensor in: hcr_description/urdf/hcr.xacro
+    gazebo plugin in: hcr_description/urdf/hcr.gazebo 
+    rplidar is load by gazebo spawner! -> in file: hcr_gazebo_sim.launch
+  -->
+
+  <!-- hectorSLAM -->
+  <include file="$(find hcr_navigation)/includes/rplidar_hectorslam.launch.xml" >
+    <!-- Frame names -->
+    <!-- <arg name="base_frame" value="link_laserHokuyo"/> --> 
+    <arg name="base_frame" value="base_footprint"/>
+    <arg name="odom_frame" value="odom"/>
+    <!-- Map update parameters -->
+    <arg name="laser_min_dist" value="0.15"/>
+    <arg name="laser_max_dist" value="8.0"/>
+    <!-- Tf use -->
+    <arg name="pub_map_odom_transform" value="true"/>
+    <!-- Scan topic -->
+    <arg name="scan_topic" value="scan"/>
+  </include>
+
+  <!-- Map server -->
+  <arg name="map_file" default="$(find hcr_navigation)/maps/playground.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)">
+  </node>
+
+  <!-- AMCL -->
+  <!-- <include file="$(find hcr_navigation)/includes/$(arg laser_sensor)_amcl.launch.xml"/> -->
+
+  <!-- Move base -->
+  <include file="$(find hcr_navigation)/includes/move_base.launch.xml"/>
+  
+  <node pkg="frontier_exploration" type="explore_client" name="explore_client" output="screen"/>
+  <node pkg="frontier_exploration" type="explore_server" name="explore_server" output="screen">
+
+    <param name="frequency" value="1.0"/>
+
+    <!-- Should be less than sensor range -->
+    <param name="goal_aliasing" value="2.0"/>
+    <rosparam file="$(find hcr_navigation)/param/costmap_common.yaml" command="load" ns="explore_costmap" />
+    <rosparam file="$(find hcr_navigation)/param//costmap_exploration.yaml" command="load" ns="explore_costmap" />
+
+  </node>
+
+
+  <!-- rvis -->
+  <!-- <include file="$(find hcr_bringup)/launch/view_exp.launch"/> -->
+
+</launch>

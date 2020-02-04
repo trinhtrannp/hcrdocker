@@ -1,0 +1,22 @@
+# Limits for HW Interface ~ limits are assigned direct to the wheels
+# Limits are for angular speed
+joint_limits:
+  joint_wheelLeft:
+    has_position_limits: false
+    max_postion: 10.0
+    has_velocity_limits: true
+    max_velocity: 13.3
+    has_acceleration_limits: false
+    max_acceleration: 10.0
+    has_jerk_limits: false
+    max_jerk: 100.0
+  joint_wheelRight:
+    has_position_limits: false
+    max_postion: 10.0
+    has_velocity_limits: true
+    max_velocity: 13.33
+    has_acceleration_limits: false
+    max_acceleration: 10.0
+    has_jerk_limits: false
+    max_jerk: 100.0
+ 

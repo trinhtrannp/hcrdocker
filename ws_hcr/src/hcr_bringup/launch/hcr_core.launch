@@ -1,0 +1,18 @@
+<?xml version='1.0'?>
+<launch>
+  <!-- set arduion parameter -->
+  <param name="ticks_meter" value="6210"/>
+
+  <!-- 50hz ~ 20ms -->
+  <param name="~control_rate" value="100"/>
+
+  <!-- start ros_serial -->
+  <node pkg="rosserial_python" type="serial_node.py" name="hcr_core" output="screen">
+    <param name="port" value="/dev/ttyACM0"/>
+  </node>
+
+
+  <!-- start controller -->
+  <include file="$(find hcr_controller)/launch/diff_drive_controller_core.launch" />
+
+</launch> 

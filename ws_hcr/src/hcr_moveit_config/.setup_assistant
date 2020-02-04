@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: hcr_description
+    relative_path: urdf/hcr.xacro
+    xacro_args: "--inorder "
+  SRDF:
+    relative_path: config/hcr.srdf
+  CONFIG:
+    author_name: Eike Brilatus
+    author_email: www.xxx@EMail.com
+    generated_timestamp: 1550514492

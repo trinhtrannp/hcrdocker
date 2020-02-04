@@ -1,0 +1,27 @@
+robot_base_frame: base_footprint
+update_frequency: 4.0
+publish_frequency: 3.0
+transform_tolerance: 0.5
+
+# resolution: 0.05
+
+obstacle_range: 4.0
+raytrace_range: 6.0
+
+#layer definitions
+static:
+    map_topic: /map
+    subscribe_to_updates: true
+
+obstacles_laser:
+    observation_sources: laser
+    laser: {data_type: LaserScan, clearing: true, marking: true, topic: scan, inf_is_valid: true}
+
+inflation:
+    inflation_radius: 0.55  # max distance from an obstacle at which costs are incurred for planning paths
+
+# observation_sources: scan
+# scan: {data_type: LaserScan, topic: scan, marking: true, clearing: true}
+
+footprint: [[-0.220, -0.163], [-0.220, 0.163], [0.137, 0.163], [0.137, -0.163]]  # if the robot is not circular
+# footprint_padding: 0.01

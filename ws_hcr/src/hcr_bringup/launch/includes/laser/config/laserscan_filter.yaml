@@ -1,0 +1,8 @@
+# Laser filters definition
+scan_filter_chain:
+# Remove laser scan points inside of certain angular bounds
+- name: angle_cutoff
+  type: laser_filters/LaserScanAngularBoundsFilterInPlace
+  params:
+    lower_angle: -0.5235987756 # [rad] | for the RPLIDAR A1 -> [-1.570796327=90°]
+    upper_angle: 0.5235987756 # [rad] | for the RPLIDAR A1 -> [1.570796327=270°]

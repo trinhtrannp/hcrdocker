@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- rplidar -->
+  <arg name="laser_sensor" default="$(env HCR_LASER_SENSOR)"/>
+  <include file="$(find hcr_bringup)/launch/laser.launch"/>
+
+
+  <!-- map server -->
+  <!-- <arg name="map_file" default="$(find hcr_navigation)/maps/lab_1.yaml"/> -->
+  <arg name="map_file" default="$(find hcr_navigation)/maps/map2.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)">
+  </node>
+
+  <!-- amcl -->
+  <include file="$(find hcr_navigation)/includes/$(arg laser_sensor)_amcl_2.launch.xml"/>
+
+  <!-- hector_slam -->
+  <include file="$(find hcr_navigation)/includes/$(arg laser_sensor)_hectorslam_2.launch.xml"/>
+
+  <!-- move_base -->
+  <include file="$(find hcr_navigation)/includes/move_base.launch.xml"/>
+
+</launch>

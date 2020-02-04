@@ -1,0 +1,11 @@
+controller_list:
+  - name: fake_hcr_arm_controller
+    joints:
+      - joint_arm1
+      - joint_arm2
+      - joint_arm3
+      - joint_arm4
+      - joint_arm5
+  - name: fake_hcr_gripper_controller
+    joints:
+      - joint_arm6
