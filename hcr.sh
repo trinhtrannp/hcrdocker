@@ -7,6 +7,7 @@ function start_all {
         echo "Container is not running at the moment. Try to cleanup dead container first.".
         docker rm $CONTAINER_NAME &>/dev/null
         echo "Now starting $CONTAINER_NAME ....."
+        export MODE=all
         nohup $"docker-compose" -f ./docker-compose.yml up &
         return 0
     else
@@ -21,6 +22,7 @@ function start_master {
         echo "Container is not running at the moment. Try to cleanup dead container first.".
         docker rm $CONTAINER_NAME &>/dev/null
         echo "Now starting $CONTAINER_NAME ....."
+        export MODE=master
         nohup $"docker-compose" -f ./docker-compose.yml up &
         return 0
     else
@@ -35,6 +37,22 @@ function start_slave {
         echo "Container is not running at the moment. Try to cleanup dead container first.".
         docker rm $CONTAINER_NAME &>/dev/null
         echo "Now starting $CONTAINER_NAME ....."
+        export MODE=slave
+        nohup $"docker-compose" -f ./docker-compose.yml up &
+        return 0
+    else
+        echo "Container $CONTAINER_NAME is still running. Please try to stop it first or do a restart instead."
+        return 1
+    fi
+}
+
+function start_debug {
+    if ! docker top $CONTAINER_NAME &>/dev/null
+    then
+        echo "Container is not running at the moment. Try to cleanup dead container first.".
+        docker rm $CONTAINER_NAME &>/dev/null
+        echo "Now starting $CONTAINER_NAME ....."
+        export MODE=debug
         nohup $"docker-compose" -f ./docker-compose.yml up &
         return 0
     else
