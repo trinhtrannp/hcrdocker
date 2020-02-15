@@ -85,7 +85,8 @@ function start_slave {
     nohup $"couchdb" start > /hcr/slave-couchdb.log &
     echo "... couchdb started"
     sleep 3
-    nohup $"./init-ork-db.sh" > /hcr/slave-ork-object.log &
+    #nohup $"./init-ork-db.sh" > /hcr/ork-object.log &
+    init-ork-db
     echo "... ork object configured"
     sleep 3
     nohup $"rosrun" object_recognition_core push.sh > /hcr/slave-couchdb-webui.log &
