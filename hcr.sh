@@ -23,7 +23,7 @@ function start_master {
         echo "Container is not running at the moment. Try to cleanup dead container first.".
         docker rm $CONTAINER_NAME &>/dev/null
         echo "Now starting $CONTAINER_NAME ....."
-        nohup $"docker" run --detach --name "hcr" --network "hcrnetwork" --network-alias "hcrmaster" --hostname "hcrmaster" --privileged -e MODE=master -e MASTERIP=localhost -v "/dev/":"/dev/" -v "$CWD/":"/hcr/" -v "/bin/ping":"/bin/ping" --entrypoint "/hcr/entrypoint.sh" hcr:kinetic-ros &
+        nohup $"docker" run --detach --name "hcr" --network "hcrnetwork" --network-alias "hcrmaster" --hostname "hcrmaster" -p 11311:11311 --privileged -e MODE=master -e MASTERIP=localhost -v "/dev/":"/dev/" -v "$CWD/":"/hcr/" -v "/bin/ping":"/bin/ping" --entrypoint "/hcr/entrypoint.sh" hcr:kinetic-ros &
         return 0
     else
         echo "Container $CONTAINER_NAME is still running. Please try to stop it first or do a restart instead."
