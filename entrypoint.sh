@@ -73,7 +73,7 @@ function start_all {
 function start_master {
     nohup $"roscore" -v > /hcr/master-roscore.log &
     echo "... roscore started"
-    sleep 60
+    sleep 3
     nohup $"roslaunch" hcr_bringup hcr_moveit.launch > /hcr/master-hcr-moveit.log &
     echo "... hcr_moveit started"
     sleep 3
