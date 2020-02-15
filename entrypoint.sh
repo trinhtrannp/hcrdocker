@@ -1,12 +1,22 @@
 #!/bin/bash
 set -e
 
+if [ -z "$MASTERIP" ]
+then
+    MASTERIP=localhost
+fi
+
 host_ip=(`hostname -I`)
 export ROS_IP=${host_ip[0]}
-export ROS_MASTER_URI=http://localhost:11311
+export ROS_MASTER_URI=http://$MASTERIP:11311
 export HCR_LASER_SENSOR=rplidar
 
-cp -r /hcr/ws_hcr/src/* /ws_hcr/src/
+cp -r /hcr/ws_hcr/src/* /wif [ -z "$var" ]
+then
+      echo "\$var is empty"
+else
+      echo "\$var is NOT empty"
+fis_hcr/src/
 rm -rf /ws_hcr/src/src/
 
 source "/opt/ros/$ROS_DISTRO/setup.bash"
@@ -31,36 +41,88 @@ function init-ork-db {
     fi
 }
 
-nohup $"roscore" -v > /hcr/roscore.log &
-echo "... roscore started"
-sleep 3
-nohup $"couchdb" start > /hcr/couchdb.log &
-echo "... couchdb started"
-sleep 3
-#nohup $"./init-ork-db.sh" > /hcr/ork-object.log &
-init-ork-db
-echo "... ork object configured"
-sleep 3
-nohup $"rosrun" object_recognition_core push.sh > /hcr/couchdb-webui.log &
-echo "... enable webui for couchdb"
-sleep 3
-nohup $"roslaunch" hcr_bringup hcr_ctrl_base.launch > /hcr/hcr-ctrl-base.log &
-echo "... hcr_ctrl_base started"
-sleep 3
-nohup $"roslaunch" hcr_bringup hcr_navigation.launch > /hcr/hcr-navigation.log &
-echo "... hcr_navigation started"
-sleep 3
-nohup $"roslaunch" hcr_bringup hcr_ctrl_arm.launch > /hcr/ctrl-arm.log &
-echo "... hcr_ctrl_arm started"
-sleep 3
-nohup $"roslaunch" hcr_bringup hcr_ork.launch > /hcr/hcr-ork.log &
-echo "... hcr_ork started"
-sleep 3
-nohup $"roslaunch" hcr_bringup hcr_moveit.launch > /hcr/hcr-moveit.log &
-echo "... hcr_moveit started"
-sleep 3
-nohup $"roslaunch" hcr_state hcr_state.launch > /hcr/hcr-state.log &
-echo "... hcr_state started"
-sleep 3
+function start_all {
+    nohup $"roscore" -v > /hcr/roscore.log &
+    echo "... roscore started"
+    sleep 3
+    nohup $"couchdb" start > /hcr/couchdb.log &
+    echo "... couchdb started"
+    sleep 3
+    #nohup $"./init-ork-db.sh" > /hcr/ork-object.log &
+    init-ork-db
+    echo "... ork object configured"
+    sleep 3
+    nohup $"rosrun" object_recognition_core push.sh > /hcr/couchdb-webui.log &
+    echo "... enable webui for couchdb"
+    sleep 3
+    nohup $"roslaunch" hcr_bringup hcr_ctrl_base.launch > /hcr/hcr-ctrl-base.log &
+    echo "... hcr_ctrl_base started"
+    sleep 3
+    nohup $"roslaunch" hcr_bringup hcr_navigation.launch > /hcr/hcr-navigation.log &
+    echo "... hcr_navigation started"
+    sleep 3
+    nohup $"roslaunch" hcr_bringup hcr_ctrl_arm.launch > /hcr/ctrl-arm.log &
+    echo "... hcr_ctrl_arm started"
+    sleep 3
+    nohup $"roslaunch" hcr_bringup hcr_ork.launch > /hcr/hcr-ork.log &
+    echo "... hcr_ork started"
+    sleep 3
+    nohup $"roslaunch" hcr_bringup hcr_moveit.launch > /hcr/hcr-moveit.log &
+    echo "... hcr_moveit started"
+    sleep 3
+    nohup $"roslaunch" hcr_state hcr_state.launch > /hcr/hcr-state.log &
+    echo "... hcr_state started"
+    sleep 3
+}
+
+function start_master {
+    nohup $"roscore" -v > /hcr/master-roscore.log &
+    echo "... roscore started"
+    sleep 60
+    nohup $"roslaunch" hcr_bringup hcr_moveit.launch > /hcr/master-hcr-moveit.log &
+    echo "... hcr_moveit started"
+    sleep 3
+    nohup $"roslaunch" hcr_state hcr_state.launch > /hcr/master-hcr-state.log &
+    echo "... hcr_state started"
+}
+
+function start_slave {
+    nohup $"couchdb" start > /hcr/slave-couchdb.log &
+    echo "... couchdb started"
+    sleep 3
+    nohup $"./init-ork-db.sh" > /hcr/slave-ork-object.log &
+    echo "... ork object configured"
+    sleep 3
+    nohup $"rosrun" object_recognition_core push.sh > /hcr/slave-couchdb-webui.log &
+    echo "... enable webui for couchdb"
+    sleep 3
+    nohup $"roslaunch" hcr_bringup hcr_ctrl_base.launch > /hcr/slave-hcr-ctrl-base.log &
+    echo "... hcr_ctrl_base started"
+    sleep 3
+    nohup $"roslaunch" hcr_bringup hcr_navigation.launch > /hcr/slave-hcr-navigation.log &
+    echo "... hcr_navigation started"
+    sleep 3
+    nohup $"roslaunch" hcr_bringup hcr_ctrl_arm.launch > /hcr/slave-ctrl-arm.log &
+    echo "... hcr_ctrl_arm started"
+    sleep 3
+    nohup $"roslaunch" hcr_bringup hcr_ork.launch > /hcr/slave-hcr-ork.log &
+    echo "... hcr_ork started"
+}
+
+if [ -z "$MODE" ]
+then
+    start_all
+else
+    if [ "$MODE" = "all" ]
+        start_all
+    then
+    elif [ "$MODE" = "master" ]
+        start_master
+    then
+    elif [ "$MODE" = "slave" ]
+    then
+        start_slave
+    fi
+fi
 
 trap : TERM INT; sleep infinity & wait
