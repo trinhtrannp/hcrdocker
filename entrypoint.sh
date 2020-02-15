@@ -77,33 +77,34 @@ function start_master {
 }
 
 function start_slave {
-    nohup $"couchdb" start > /hcr/slave-couchdb.log &
+    nohup $"couchdb" start > /hcr/couchdb.log &
     echo "... couchdb started"
     sleep 3
     #nohup $"./init-ork-db.sh" > /hcr/ork-object.log &
     init-ork-db
     echo "... ork object configured"
     sleep 3
-    nohup $"rosrun" object_recognition_core push.sh > /hcr/slave-couchdb-webui.log &
+    nohup $"rosrun" object_recognition_core push.sh > /hcr/couchdb-webui.log &
     echo "... enable webui for couchdb"
     sleep 3
-    nohup $"roslaunch" hcr_bringup hcr_ctrl_base.launch > /hcr/slave-hcr-ctrl-base.log &
+    nohup $"roslaunch" hcr_bringup hcr_ctrl_base.launch > /hcr/hcr-ctrl-base.log &
     echo "... hcr_ctrl_base started"
     sleep 3
-    nohup $"roslaunch" hcr_bringup hcr_navigation.launch > /hcr/slave-hcr-navigation.log &
+    nohup $"roslaunch" hcr_bringup hcr_navigation.launch > /hcr/hcr-navigation.log &
     echo "... hcr_navigation started"
     sleep 3
-    nohup $"roslaunch" hcr_bringup hcr_ctrl_arm.launch > /hcr/slave-ctrl-arm.log &
+    nohup $"roslaunch" hcr_bringup hcr_ctrl_arm.launch > /hcr/ctrl-arm.log &
     echo "... hcr_ctrl_arm started"
     sleep 3
-    nohup $"roslaunch" hcr_bringup hcr_ork.launch > /hcr/slave-hcr-ork.log &
+    nohup $"roslaunch" hcr_bringup hcr_ork.launch > /hcr/hcr-ork.log &
     echo "... hcr_ork started"
     sleep 3
-    nohup $"roslaunch" hcr_bringup hcr_moveit.launch > /hcr/master-hcr-moveit.log &
+    nohup $"roslaunch" hcr_bringup hcr_moveit.launch > /hcr/hcr-moveit.log &
     echo "... hcr_moveit started"
     sleep 3
-    nohup $"roslaunch" hcr_state hcr_state.launch > /hcr/master-hcr-state.log &
+    nohup $"roslaunch" hcr_state hcr_state.launch > /hcr/hcr-state.log &
     echo "... hcr_state started"
+    sleep 3
 }
 
 if [ -z "$MODE" ]
