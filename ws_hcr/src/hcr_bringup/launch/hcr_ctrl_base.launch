@@ -11,7 +11,7 @@
   <node pkg="rosserial_python" type="serial_node.py" name="hcr_motor_controle" output="screen">
     <param name="ticks_meter" value="6210"/>
     <param name="~control_rate" value="100"/>
-    <param name="port" value="/dev/ttyACM0"/>
+    <param name="port" value="/dev/arduino"/>
   </node>
 
 
