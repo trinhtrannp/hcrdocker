@@ -74,11 +74,6 @@ function start_master {
     nohup $"roscore" -v > /hcr/master-roscore.log &
     echo "... roscore started"
     sleep 3
-    nohup $"roslaunch" hcr_bringup hcr_moveit.launch > /hcr/master-hcr-moveit.log &
-    echo "... hcr_moveit started"
-    sleep 3
-    nohup $"roslaunch" hcr_state hcr_state.launch > /hcr/master-hcr-state.log &
-    echo "... hcr_state started"
 }
 
 function start_slave {
@@ -103,6 +98,12 @@ function start_slave {
     sleep 3
     nohup $"roslaunch" hcr_bringup hcr_ork.launch > /hcr/slave-hcr-ork.log &
     echo "... hcr_ork started"
+    sleep 3
+    nohup $"roslaunch" hcr_bringup hcr_moveit.launch > /hcr/master-hcr-moveit.log &
+    echo "... hcr_moveit started"
+    sleep 3
+    nohup $"roslaunch" hcr_state hcr_state.launch > /hcr/master-hcr-state.log &
+    echo "... hcr_state started"
 }
 
 if [ -z "$MODE" ]
