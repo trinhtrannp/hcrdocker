@@ -5,6 +5,9 @@ services:
     network_mode: "host"
     privileged: true
     container_name: hcr
+    environment:
+      - MODE
+      - MASTERIP
     volumes:
       - /dev/:/dev/
       - ./:/hcr/
