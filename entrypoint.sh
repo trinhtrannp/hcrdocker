@@ -109,11 +109,11 @@ then
     start_all
 else
     if [ "$MODE" = "all" ]
+    then
         start_all
-    then
     elif [ "$MODE" = "master" ]
-        start_master
     then
+        start_master
     elif [ "$MODE" = "slave" ]
     then
         start_slave
