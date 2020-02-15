@@ -11,12 +11,7 @@ export ROS_IP=${host_ip[0]}
 export ROS_MASTER_URI=http://$MASTERIP:11311
 export HCR_LASER_SENSOR=rplidar
 
-cp -r /hcr/ws_hcr/src/* /wif [ -z "$var" ]
-then
-      echo "\$var is empty"
-else
-      echo "\$var is NOT empty"
-fis_hcr/src/
+cp -r /hcr/ws_hcr/src/* /ws_hcr/src/
 rm -rf /ws_hcr/src/src/
 
 source "/opt/ros/$ROS_DISTRO/setup.bash"
