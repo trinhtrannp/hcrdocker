@@ -38,7 +38,7 @@ function start_slave {
         docker rm $CONTAINER_NAME &>/dev/null
         echo "Now starting $CONTAINER_NAME ....."
         export MODE=slave
-        nohup $"docker" run --detach --name "hcr" --network host --hostname "hcrslave" --privileged -e MODE=slave -e MASTERIP=hcr-nuc.local -v "/dev/":"/dev/" -v "$CWD/":"/hcr/" -v "/bin/ping":"/bin/ping" -v "/usr/bin/telnet":"/usr/bin/telnet" --entrypoint "/hcr/entrypoint.sh" hcr:kinetic-ros &
+        nohup $"docker" run --detach --name "hcr" --network host --hostname "hcrslave" --privileged -e MODE=slave -e MASTERIP=hcr.local -v "/dev/":"/dev/" -v "$CWD/":"/hcr/" -v "/bin/ping":"/bin/ping" -v "/usr/bin/telnet":"/usr/bin/telnet" --entrypoint "/hcr/entrypoint.sh" hcr:kinetic-ros &
         return 0
     else
         echo "Container $CONTAINER_NAME is still running. Please try to stop it first or do a restart instead."
