@@ -23,7 +23,7 @@ function start_master {
         echo "Container is not running at the moment. Try to cleanup dead container first.".
         docker rm $CONTAINER_NAME &>/dev/null
         echo "Now starting $CONTAINER_NAME ....."
-        nohup $"docker" run --detach --name "hcr" --network "hcrnetwork" --network-alias "hcrmaster" --hostname "hcrmaster" -p 11311:11311 --privileged -e MODE=master -e MASTERIP=localhost -v "/dev/":"/dev/" -v "$CWD/":"/hcr/" -v "/bin/ping":"/bin/ping" -v "/usr/bin/telnet":"/usr/bin/telnet" --entrypoint "/hcr/entrypoint.sh" hcr:kinetic-ros &
+        nohup $"docker" run --detach --name "hcr" --network host --network-alias "hcrmaster" --hostname "hcrmaster" -p 11311:11311 --privileged -e MODE=master -e MASTERIP=localhost -v "/dev/":"/dev/" -v "$CWD/":"/hcr/" -v "/bin/ping":"/bin/ping" -v "/usr/bin/telnet":"/usr/bin/telnet" --entrypoint "/hcr/entrypoint.sh" hcr:kinetic-ros &
         return 0
     else
         echo "Container $CONTAINER_NAME is still running. Please try to stop it first or do a restart instead."
@@ -38,7 +38,7 @@ function start_slave {
         docker rm $CONTAINER_NAME &>/dev/null
         echo "Now starting $CONTAINER_NAME ....."
         export MODE=slave
-        nohup $"docker" run --detach --name "hcr" --network "hcrnetwork" --network-alias "hcrslave" --hostname "hcrslave" --privileged -e MODE=slave -e MASTERIP=hcrmaster -v "/dev/":"/dev/" -v "$CWD/":"/hcr/" -v "/bin/ping":"/bin/ping" -v "/usr/bin/telnet":"/usr/bin/telnet" --entrypoint "/hcr/entrypoint.sh" hcr:kinetic-ros &
+        nohup $"docker" run --detach --name "hcr" --network host --network-alias "hcrslave" --hostname "hcrslave" --privileged -e MODE=slave -e MASTERIP=hcr-nuc.local -v "/dev/":"/dev/" -v "$CWD/":"/hcr/" -v "/bin/ping":"/bin/ping" -v "/usr/bin/telnet":"/usr/bin/telnet" --entrypoint "/hcr/entrypoint.sh" hcr:kinetic-ros &
         return 0
     else
         echo "Container $CONTAINER_NAME is still running. Please try to stop it first or do a restart instead."
@@ -53,7 +53,7 @@ function start_debug {
         docker rm $CONTAINER_NAME &>/dev/null
         echo "Now starting $CONTAINER_NAME ....."
         export MODE=debug
-        nohup $"docker" run --detach --name "hcrdebug" --network "hcrnetwork" --network-alias "hcrdebug" --hostname "hcrdebug" --privileged -e MODE=debug -e MASTERIP=localhost -v "/dev/":"/dev/" -v "$CWD/":"/hcr/" -v "/bin/ping":"/bin/ping" -v "/usr/bin/telnet":"/usr/bin/telnet" --entrypoint "/hcr/entrypoint.sh" hcr:kinetic-ros &
+        nohup $"docker" run --detach --name "hcrdebug" --network host --network-alias "hcrdebug" --hostname "hcrdebug" --privileged -e MODE=debug -e MASTERIP=localhost -v "/dev/":"/dev/" -v "$CWD/":"/hcr/" -v "/bin/ping":"/bin/ping" -v "/usr/bin/telnet":"/usr/bin/telnet" --entrypoint "/hcr/entrypoint.sh" hcr:kinetic-ros &
         return 0
     else
         echo "Container $CONTAINER_NAME is still running. Please try to stop it first or do a restart instead."
